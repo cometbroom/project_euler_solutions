@@ -4,6 +4,9 @@
   "description": "Fast solutions for Project Euler problems",
   "main": "index.js",
   "scripts": {
+    "init": "snowpack init",
+    "start": "snowpack dev",
+    "build": "snowpack build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/cometbroom/project_euler_solutions/issues"
   },
-  "homepage": "https://github.com/cometbroom/project_euler_solutions#readme"
+  "homepage": "https://github.com/cometbroom/project_euler_solutions#readme",
+  "devDependencies": {
+    "snowpack": "^3.8.8"
+  }
 }

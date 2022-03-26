@@ -1,5 +1,32 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+section.ui {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+pre {
+  background-color: rgb(24, 24, 24);
+  color: white;
+  padding: 20px 10px;
+  margin: 10px 0px;
+}
+
+section.ui {
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+section.ui h2 {
+  text-align: center;
+}
+
+section.ui input {
+  margin: 0px 5px 0px 5px;
 }
