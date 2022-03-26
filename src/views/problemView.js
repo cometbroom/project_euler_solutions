@@ -1,7 +1,7 @@
 import { appData } from "../data/data";
 
 const currentProblem = appData.problems[appData.currentProblem];
-const resultParams = [];
+const result = document.createElement("h3");
 
 export const createProblemElement = () => {
   const element = document.createElement("div");
@@ -9,9 +9,10 @@ export const createProblemElement = () => {
   const title = document.createElement("h2");
   const inputs = createInputs(currentProblem.inputs.length);
   const codeBlock = createCodeBlock();
-  const result = document.createElement("h3");
   title.textContent = currentProblem.title;
-  result.textContent = `Result: ${currentProblem.result(...resultParams)}`;
+  result.textContent = `Result: ${currentProblem.result(
+    ...currentProblem.inputs
+  )}`;
 
   element.append(title, inputs, codeBlock, result);
   return element;
@@ -19,11 +20,11 @@ export const createProblemElement = () => {
 
 const createInputs = (amount) => {
   const divElement = document.createElement("div");
+  divElement.classList.add("p-inputs");
 
   for (let i = 0; i < amount; ++i) {
     const inputEl = document.createElement("input");
     inputEl.type = "text";
-    resultParams.push(currentProblem.inputs[i]);
     inputEl.value = currentProblem.inputs[i];
     divElement.appendChild(inputEl);
   }
@@ -36,4 +37,10 @@ const createCodeBlock = () => {
 
   element.textContent = currentProblem.result;
   return element;
+};
+
+export const updateResult = () => {
+  result.innerHTML = `Result: ${currentProblem.result(
+    ...currentProblem.inputs
+  )}`;
 };

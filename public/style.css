@@ -29,4 +29,5 @@ section.ui h2 {
 
 section.ui input {
   margin: 0px 5px 0px 5px;
+  text-align: center;
 }
