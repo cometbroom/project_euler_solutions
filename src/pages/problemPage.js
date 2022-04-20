@@ -7,12 +7,14 @@ const props = {
   onKeyUp: inputKeyUpHandler,
 };
 
-const initProblemPage = () => {
-  state = createObservableState({
-    ...appData.problems[0],
-  });
-
+const initProblemPage = (page = 0) => {
+  if (page >= appData.problems.length) page = 0;
+  state = createObservableState();
   const root = createProblemElement(state, props);
+  state.updateState({
+    current: page,
+    ...appData.problems[page],
+  });
   return { root };
 };
 
@@ -20,7 +22,7 @@ function inputKeyUpHandler(e) {
   const numValue = parseInt(this.value);
   if (typeof numValue === "number" && this.value > 0) {
     const _state = state.getState();
-    _state.inputs[this.id] = numValue;
+    _state.inputs[parseInt(this.id, 10)] = numValue;
     state.updateState(_state);
   }
 }

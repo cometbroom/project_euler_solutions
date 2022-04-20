@@ -1,57 +1,51 @@
 import { createElement } from "../tools/DOMCreate";
 
-let currentProblem;
-
 export const createProblemElement = (state, props) => {
-  const element = document.createElement("div");
-
-  const title = document.createElement("h2");
-  currentProblem = state.getState();
-  const inputs = createInputs(props.onKeyUp, state);
-  const codeBlock = createCodeBlock();
-  const result = document.createElement("h3");
-
-  title.textContent = currentProblem.title;
+  const { element, ...children } = createElStructure();
   state.subscribe((newState) => {
-    result.textContent = `Result: ${newState.result(...newState.inputs)}`;
+    updateView(children, props, newState);
   });
-  result.textContent = `Result: ${currentProblem.result(
-    ...currentProblem.inputs
-  )}`;
-
-  element.append(title, inputs, codeBlock, result);
+  element.append(...Object.values(children));
   return element;
 };
 
-const createInputs = (onKeyUp, state) => {
-  const divElement = document.createElement("div");
-  divElement.classList.add("p-inputs");
+function createElStructure() {
+  const element = createElement("div");
+  const title = createElement("h2");
+  const inputs = createElement("div", { class: "p-inputs" });
+  const codeBlock = createElement("pre", {
+    classes: ["prettyprint", "lang-js"],
+  });
+  const result = createElement("h3");
+  return { element, title, inputs, codeBlock, result };
+}
 
-  const inputsState = state.getState().inputs;
+const updateView = (elements, props, newState) => {
+  elements.title.textContent = `Problem ${newState.current}: ${newState.title}`;
+  assignInputs(elements.inputs, props.onKeyUp, newState);
+  assignCodeBlock(elements.codeBlock, newState);
+  elements.result.textContent = `Result: ${newState.result(
+    ...newState.inputs
+  )}`;
+};
+
+const assignInputs = (target, inputChange, state) => {
+  const inputsState = state.inputs;
 
   for (let i = 0; i < inputsState.length; ++i) {
-    const inputEl = createElement("input", {
-      id: i,
-      type: "text",
-      value: inputsState[i],
-    });
-
-    inputEl.addEventListener("keyup", onKeyUp);
-    divElement.appendChild(inputEl);
+    const inputEl = document.getElementById(`${i} input`);
+    if (!inputEl)
+      createInput(`${i} input`, "text", inputsState[i], target, inputChange);
+    else inputEl.value = inputsState[i];
   }
-  return divElement;
 };
 
-const createCodeBlock = () => {
-  const element = document.createElement("pre");
-  element.classList.add("prettyprint", "lang-js");
-
-  element.textContent = currentProblem.result;
-  return element;
+const createInput = (id, type, value, appendTarget, inputChange) => {
+  const input = createElement("input", { id, type, value });
+  input.addEventListener("input", inputChange);
+  appendTarget.appendChild(input);
 };
 
-export const updateResult = () => {
-  result.innerHTML = `Result: ${currentProblem.result(
-    ...currentProblem.inputs
-  )}`;
+const assignCodeBlock = (target, state) => {
+  target.textContent = state.result;
 };

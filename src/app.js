@@ -10,7 +10,6 @@ function loadApp() {
 
   // Create a DOM element that will serve as the mount point
   const pageRoot = createElement("div", { id: "page-root" });
-  console.log(appRoot);
   appRoot.appendChild(pageRoot);
 
   router.start(routes, pageRoot);

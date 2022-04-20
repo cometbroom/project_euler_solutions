@@ -4,12 +4,15 @@
   box-sizing: border-box;
 }
 
-section.ui {
-  display: flex;
+main {
+  display: grid;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  flex-direction: column;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+section.ui {
+  grid-column: -2/2;
 }
 
 pre {
@@ -27,7 +30,23 @@ section.ui h2 {
   text-align: center;
 }
 
+section.ui .p-inputs {
+  display: flex;
+}
+
 section.ui input {
   margin: 0px 5px 0px 5px;
   text-align: center;
+  flex: 1;
+}
+
+section.navigator {
+  grid-column: -2/2;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+section.navigator button {
+  flex: 1;
+  cursor: pointer;
 }

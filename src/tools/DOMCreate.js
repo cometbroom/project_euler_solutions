@@ -7,6 +7,7 @@ export const createElement = (tag, options = null) => {
   if (options?.value) element.value = options.value;
   if (options?.type) element.type = options.type;
   if (options?.class) element.classList.add(options.class);
+  if (options?.classes) element.classList.add(...options.classes);
   if (options?.onClick) element.addEventListener("click", options.onClick);
   return element;
 };

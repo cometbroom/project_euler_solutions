@@ -34,7 +34,7 @@ function findRouteByPathname(routes, pathname) {
 }
 
 async function onHashChange(routerState) {
-  const { routes, pageRoot, currentPage } = routerState;
+  const { routes, pageRoot } = routerState;
 
   const [pathname, ...params] = getRouteParts();
 
@@ -45,12 +45,6 @@ async function onHashChange(routerState) {
   if (!route) {
     navigateTo(getDefaultRoute(routes).path);
     return;
-  }
-
-  // Call optional willUnmount lifecycle method.
-  if (currentPage.pageWillUnload) {
-    log.silly("router", "calling pageWillUnload()");
-    currentPage.pageWillUnload();
   }
 
   log.debug("router", `loading page: ${pathname}, params: ${[...params]}`);
@@ -73,11 +67,6 @@ async function onHashChange(routerState) {
     throw new Error(`Page "${pathname}" did not return a valid page object`);
   }
 
-  if (typeof newPage?.update === "function") {
-    // Subscribe the new page to the state observable.
-    _obsState.subscribe(_currentPage.update);
-  }
-
   // Clear the content of the pageRoot container and append the page
   // root element as its new child.
   pageRoot.innerHTML = "";
@@ -86,10 +75,6 @@ async function onHashChange(routerState) {
   // Reset scroll position to top of page
   window.scrollTo(0, 0);
 
-  if (typeof routerState.currentPage?.update === "function") {
-    // Unsubscribe the current page from the state observable.
-    _obsState.unsubscribe(_currentPage.update);
-  }
   routerState.currentPage = newPage;
 }
 
