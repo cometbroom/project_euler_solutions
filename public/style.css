@@ -40,6 +40,21 @@ section.ui input {
   flex: 1;
 }
 
+button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.inactive-btn {
+  background-color: gray;
+  cursor:not-allowed;
+}
+
 section.navigator {
   grid-column: -2/2;
   display: flex;
@@ -48,5 +63,4 @@ section.navigator {
 }
 section.navigator button {
   flex: 1;
-  cursor: pointer;
 }

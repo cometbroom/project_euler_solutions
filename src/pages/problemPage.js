@@ -1,24 +1,26 @@
+import { setupNavigator } from "../components/navigator";
+import { NAVIGATOR_QUERY } from "../constants";
 import { appData } from "../data/data";
 import createObservableState from "../lib/observableState";
 import { createProblemElement } from "../views/problemView";
 
-let state;
+let state = createObservableState();
 const props = {
   onKeyUp: inputKeyUpHandler,
 };
 
 const initProblemPage = (page = 0) => {
   if (page >= appData.problems.length) page = 0;
-  state = createObservableState();
   const root = createProblemElement(state, props);
+  setupNavigator(state);
   state.updateState({
     current: page,
-    ...appData.problems[page],
+    ...appData.problems[parseInt(page, 10)],
   });
-  return { root };
+  return root;
 };
 
-function inputKeyUpHandler(e) {
+function inputKeyUpHandler() {
   const numValue = parseInt(this.value);
   if (typeof numValue === "number" && this.value > 0) {
     const _state = state.getState();

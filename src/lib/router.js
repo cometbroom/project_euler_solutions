@@ -34,7 +34,7 @@ function findRouteByPathname(routes, pathname) {
 }
 
 async function onHashChange(routerState) {
-  const { routes, pageRoot } = routerState;
+  const { routes, pageRoot, currentPage } = routerState;
 
   const [pathname, ...params] = getRouteParts();
 
@@ -53,6 +53,12 @@ async function onHashChange(routerState) {
   let newPage = route.page(...params);
   if (typeof newPage !== "object") {
     throw new Error(`Page ${pathname} did not return an object`);
+  }
+
+  // Call optional willUnmount lifecycle method.
+  if (currentPage.pageWillUnload) {
+    log.silly("router", "calling pageWillUnload()");
+    currentPage.pageWillUnload();
   }
 
   // If the page is a promise (i.e. and object with a `.then` property),
@@ -111,4 +117,5 @@ function createRouter() {
   return { start, navigateTo };
 }
 
-export default createRouter();
+const router = createRouter();
+export default router;

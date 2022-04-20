@@ -1,23 +1,30 @@
 import { createElement } from "../tools/DOMCreate";
 
 export const createProblemElement = (state, props) => {
-  const { element, ...children } = createElStructure();
-  state.subscribe((newState) => {
+  const { root, ...children } = createElStructure();
+  const updateState = (newState) => {
     updateView(children, props, newState);
-  });
-  element.append(...Object.values(children));
-  return element;
+  };
+
+  state.subscribe(updateState);
+  root.append(...Object.values(children));
+  return {
+    root,
+    pageWillUnload: () => {
+      state.unsubscribe(updateState);
+    },
+  };
 };
 
 function createElStructure() {
-  const element = createElement("div");
+  const root = createElement("div");
   const title = createElement("h2");
   const inputs = createElement("div", { class: "p-inputs" });
   const codeBlock = createElement("pre", {
     classes: ["prettyprint", "lang-js"],
   });
   const result = createElement("h3");
-  return { element, title, inputs, codeBlock, result };
+  return { root, title, inputs, codeBlock, result };
 }
 
 const updateView = (elements, props, newState) => {
@@ -31,7 +38,6 @@ const updateView = (elements, props, newState) => {
 
 const assignInputs = (target, inputChange, state) => {
   const inputsState = state.inputs;
-
   for (let i = 0; i < inputsState.length; ++i) {
     const inputEl = document.getElementById(`${i} input`);
     if (!inputEl)
