@@ -1,15 +1,20 @@
-import { appData } from "../data/data";
+import { createElement } from "../tools/DOMCreate";
 
-const currentProblem = appData.problems[appData.currentProblem];
-const result = document.createElement("h3");
+let currentProblem;
 
-export const createProblemElement = () => {
+export const createProblemElement = (state, props) => {
   const element = document.createElement("div");
 
   const title = document.createElement("h2");
-  const inputs = createInputs(currentProblem.inputs.length);
+  currentProblem = state.getState();
+  const inputs = createInputs(props.onKeyUp, state);
   const codeBlock = createCodeBlock();
+  const result = document.createElement("h3");
+
   title.textContent = currentProblem.title;
+  state.subscribe((newState) => {
+    result.textContent = `Result: ${newState.result(...newState.inputs)}`;
+  });
   result.textContent = `Result: ${currentProblem.result(
     ...currentProblem.inputs
   )}`;
@@ -18,14 +23,20 @@ export const createProblemElement = () => {
   return element;
 };
 
-const createInputs = (amount) => {
+const createInputs = (onKeyUp, state) => {
   const divElement = document.createElement("div");
   divElement.classList.add("p-inputs");
 
-  for (let i = 0; i < amount; ++i) {
-    const inputEl = document.createElement("input");
-    inputEl.type = "text";
-    inputEl.value = currentProblem.inputs[i];
+  const inputsState = state.getState().inputs;
+
+  for (let i = 0; i < inputsState.length; ++i) {
+    const inputEl = createElement("input", {
+      id: i,
+      type: "text",
+      value: inputsState[i],
+    });
+
+    inputEl.addEventListener("keyup", onKeyUp);
     divElement.appendChild(inputEl);
   }
   return divElement;
