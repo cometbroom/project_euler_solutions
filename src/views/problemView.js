@@ -2,12 +2,14 @@ import { createElement } from "../tools/DOMCreate";
 
 export const createProblemElement = (state, props) => {
   const { root, ...children } = createElStructure();
+
   const updateState = (newState) => {
     updateView(children, props, newState);
   };
 
-  state.subscribe(updateState);
   root.append(...Object.values(children));
+
+  state.subscribe(updateState);
   return {
     root,
     pageWillUnload: () => {
@@ -43,6 +45,7 @@ const assignInputs = (target, inputChange, state) => {
     if (!inputEl)
       createInput(`${i} input`, "text", inputsState[i], target, inputChange);
     else inputEl.value = inputsState[i];
+    if (!target.hasChildNodes()) target.appendChild(inputEl);
   }
 };
 

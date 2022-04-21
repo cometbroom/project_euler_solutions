@@ -1,5 +1,4 @@
 import { setupNavigator } from "../components/navigator";
-import { NAVIGATOR_QUERY } from "../constants";
 import { appData } from "../data/data";
 import createObservableState from "../lib/observableState";
 import { createProblemElement } from "../views/problemView";
@@ -9,15 +8,20 @@ const props = {
   onKeyUp: inputKeyUpHandler,
 };
 
-const initProblemPage = (page = 0) => {
-  if (page >= appData.problems.length) page = 0;
-  const root = createProblemElement(state, props);
+const initProblemPage = (urlPage = 0) => {
+  if (urlPage >= appData.problems.length) urlPage = 0;
+  const root = stateIntoView(state, urlPage);
+  return root;
+};
+
+const stateIntoView = (state, page) => {
+  const view = createProblemElement(state, props);
   setupNavigator(state);
   state.updateState({
     current: page,
     ...appData.problems[parseInt(page, 10)],
   });
-  return root;
+  return view;
 };
 
 function inputKeyUpHandler() {
