@@ -1,6 +1,7 @@
 import { setupNavigator } from "../components/navigator";
 import { appData } from "../data/data";
 import createObservableState from "../lib/observableState";
+import { C_TYPE } from "../tools/checkType";
 import { createProblemElement } from "../views/problemView";
 
 let state = createObservableState();
@@ -10,6 +11,7 @@ const props = {
 
 const initProblemPage = (urlPage = 0) => {
   if (urlPage >= appData.problems.length) urlPage = 0;
+  if (C_TYPE.isString(urlPage)) urlPage = parseInt(urlPage, 10);
   const root = stateIntoView(state, urlPage);
   return root;
 };
@@ -19,7 +21,7 @@ const stateIntoView = (state, page) => {
   setupNavigator(state);
   state.updateState({
     current: page,
-    ...appData.problems[parseInt(page, 10)],
+    ...appData.problems[page],
   });
   return view;
 };

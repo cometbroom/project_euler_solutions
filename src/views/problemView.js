@@ -30,7 +30,9 @@ function createElStructure() {
 }
 
 const updateView = (elements, props, newState) => {
-  elements.title.textContent = `Problem ${newState.current}: ${newState.title}`;
+  elements.title.textContent = `Problem ${newState.current}: ${newState.title(
+    ...newState.inputs
+  )}`;
   assignInputs(elements.inputs, props.onKeyUp, newState);
   assignCodeBlock(elements.codeBlock, newState);
   elements.result.textContent = `Result: ${newState.result(

@@ -26,3 +26,20 @@ export const evenFibonacciNums = (in1) => {
   } while (x < in1);
   return total;
 };
+
+export const largestPrimeFactor = (in1) => {
+  const getSearchMax = (num) => Math.ceil(Math.sqrt(num));
+
+  const isPrime = (num) => {
+    for (let i = 2; i <= getSearchMax(num); ++i) {
+      if (num % i === 0) return false;
+    }
+    return true;
+  };
+
+  //Backwards search to save iterations.
+  for (let i = getSearchMax(in1); i >= 3; --i) {
+    if (in1 % i === 0 && isPrime(i)) return i;
+  }
+  return -1;
+};
