@@ -22,5 +22,8 @@
   "homepage": "https://github.com/cometbroom/project_euler_solutions#readme",
   "devDependencies": {
     "snowpack": "^3.8.8"
+  },
+  "dependencies": {
+    "highlight.js": "^11.5.1"
   }
 }

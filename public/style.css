@@ -9,6 +9,8 @@ main {
   align-items: center;
   justify-content: center;
   grid-template-columns: repeat(12, 1fr);
+  gap: 10px;
+  height: 100vh;
 }
 
 section.ui {
@@ -16,14 +18,22 @@ section.ui {
 }
 
 pre {
-  background-color: rgb(24, 24, 24);
-  color: white;
+  background-color: rgb(228, 227, 227);
+  border: 2px solid gray;
+  border-radius: 3px;
   padding: 20px 10px;
   margin: 10px 0px;
 }
 
 section.ui {
   font-family: "Roboto Condensed", sans-serif;
+  align-self: end;
+}
+
+section.ui .problem-view {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 section.ui h2 {
@@ -60,6 +70,7 @@ section.navigator {
   display: flex;
   gap: 10px;
   justify-content: space-between;
+  align-self: start;
 }
 section.navigator button {
   flex: 1;

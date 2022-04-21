@@ -1,3 +1,6 @@
+import hljs from "highlight.js/lib/core";
+import javascript from "highlight.js/lib/languages/javascript";
+hljs.registerLanguage("javascript", javascript);
 import { createElement } from "../tools/DOMCreate";
 
 export const createProblemElement = (state, props) => {
@@ -19,12 +22,10 @@ export const createProblemElement = (state, props) => {
 };
 
 function createElStructure() {
-  const root = createElement("div");
+  const root = createElement("div", { class: "problem-view" });
   const title = createElement("h2");
   const inputs = createElement("div", { class: "p-inputs" });
-  const codeBlock = createElement("pre", {
-    classes: ["prettyprint", "lang-js"],
-  });
+  const codeBlock = createElement("pre", { classes: ["language-javascript"] });
   const result = createElement("h3");
   return { root, title, inputs, codeBlock, result };
 }
@@ -59,4 +60,5 @@ const createInput = (id, type, value, appendTarget, inputChange) => {
 
 const assignCodeBlock = (target, state) => {
   target.textContent = state.result;
+  hljs.highlightElement(target);
 };
