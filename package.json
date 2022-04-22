@@ -24,6 +24,7 @@
     "snowpack": "^3.8.8"
   },
   "dependencies": {
+    "gsap": "^3.10.3",
     "highlight.js": "^11.5.1"
   }
 }

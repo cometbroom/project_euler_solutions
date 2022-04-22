@@ -11,10 +11,12 @@ main {
   grid-template-columns: repeat(12, 1fr);
   gap: 10px;
   height: 100vh;
+  overflow: hidden;
 }
 
 section.ui {
   grid-column: -2/2;
+  position: relative;
 }
 
 pre {
@@ -23,6 +25,8 @@ pre {
   border-radius: 3px;
   padding: 20px 10px;
   margin: 10px 0px;
+  height: 300px;
+  overflow-y: scroll;
 }
 
 section.ui {
@@ -50,18 +54,35 @@ section.ui input {
   flex: 1;
 }
 
+section.navigator {
+}
+
 button {
-  background-color: blue;
   color: white;
   border: none;
   padding: 10px;
   border-radius: 3px;
   font-size: 1.2em;
   cursor: pointer;
+  transition: box-shadow 0.3s, filter 0.3s;
+}
+button:nth-child(1) {
+  background-color: #652487;
+  background-image: linear-gradient(160deg,#652487 0,#443ac3 60%,#073eac 100%);
+}
+button:nth-child(2) {
+  background-color: #652487;
+  background-image: linear-gradient(160deg,#073eac 0%,#04988e 100%);
+}
+
+button:hover {
+  box-shadow: 2px 2px 5px black;
+  filter: brightness(1.2);
 }
 
 .inactive-btn {
-  background-color: gray;
+  background-color: gray!important;
+  background-image:none!important;
   cursor:not-allowed;
 }
 

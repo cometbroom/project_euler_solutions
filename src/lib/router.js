@@ -9,8 +9,9 @@ function navigateTo(path, ...params) {
   // Example:
   // navigateTo('repos', 'HackYourFuture', 'my-repo') => '#repos/HackYourFuture/my-repo'
   log.silly("navigateTo", "path:", path, "params:", [...params]);
-  const encodedHash = encodeURI("#" + [path, ...params].join("/"));
-  window.location.assign(encodedHash);
+  const url = encodeURI("#" + [path, ...params].join("/"));
+  window.location.hash = url;
+  // window.location.assign(encodedHash);
 }
 
 function getRouteParts() {
