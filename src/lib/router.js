@@ -61,6 +61,13 @@ async function onHashChange(routerState) {
     currentPage.pageWillUnload();
   }
 
+  if (currentPage.unloadTasks) {
+    log.silly("router", "calling unloader tasks");
+    for (let i = 0; i < currentPage.unloadTasks.length; ++i) {
+      currentPage.unloadTasks[i]();
+    }
+  }
+
   // If the page is a promise (i.e. and object with a `.then` property),
   // await it (dynamic import).
   if (newPage.then) {

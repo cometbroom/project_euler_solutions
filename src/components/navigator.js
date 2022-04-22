@@ -13,7 +13,6 @@ export const setupNavigator = (state) => {
   };
 
   state.subscribe(updateFcn);
-  section.append(prevBtn, nextBtn);
 };
 
 const getSectionElements = () => {
@@ -29,12 +28,12 @@ function setInactive(prevBtn, nextBtn) {
 
 const setupButton = (state, target, move) => {
   target.classList.remove(INACTIVE_BTN);
-  target.addEventListener("click", () => {
+  target.onclick = function () {
     if (move == "next") {
       router.navigateTo("problems", state.current + 1);
     }
     if (move == "prev") {
       router.navigateTo("problems", state.current - 1);
     }
-  });
+  };
 };

@@ -17,6 +17,7 @@ export const createProblemElement = (state, props) => {
     root,
     pageWillUnload: () => {
       state.unsubscribe(updateState);
+      console.count(state);
     },
   };
 };

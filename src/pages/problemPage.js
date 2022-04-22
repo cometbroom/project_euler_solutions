@@ -9,7 +9,7 @@ const props = {
   onKeyUp: inputKeyUpHandler,
 };
 
-const initProblemPage = (urlPage = 0) => {
+const initProblemPage = function (urlPage = 0) {
   if (urlPage >= appData.problems.length) urlPage = 0;
   if (C_TYPE.isString(urlPage)) urlPage = parseInt(urlPage, 10);
   const root = stateIntoView(state, urlPage);
