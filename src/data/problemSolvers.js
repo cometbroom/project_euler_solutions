@@ -1,4 +1,4 @@
-export const sumMultiplesOf3n5 = function (in1, in2, in3) {
+const sumMultiplesOf3n5 = function (in1, in2, in3) {
   let result = 0;
   const in1Start = in1;
   const in2Start = in2;
@@ -15,7 +15,7 @@ export const sumMultiplesOf3n5 = function (in1, in2, in3) {
   return result;
 };
 
-export const evenFibonacciNums = function (in1) {
+const evenFibonacciNums = function (in1) {
   let [x, y, temp, total] = [1, 1, 0, 0];
 
   do {
@@ -27,7 +27,7 @@ export const evenFibonacciNums = function (in1) {
   return total;
 };
 
-export const largestPrimeFactor = function (in1) {
+const largestPrimeFactor = function (in1) {
   const getSearchMax = (num) => Math.ceil(Math.sqrt(num));
 
   const isPrime = (num) => {
@@ -43,3 +43,5 @@ export const largestPrimeFactor = function (in1) {
   }
   return -1;
 };
+
+export default [sumMultiplesOf3n5, evenFibonacciNums, largestPrimeFactor];

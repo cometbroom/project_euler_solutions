@@ -27,12 +27,18 @@ const stateIntoView = (state, page) => {
 };
 
 function inputKeyUpHandler() {
-  const numValue = parseInt(this.value);
-  if (typeof numValue === "number" && this.value > 0) {
-    const _state = state.getState();
-    _state.inputs[parseInt(this.id, 10)] = numValue;
-    state.updateState(_state);
-  }
+  let timeoutId;
+  clearTimeout(timeoutId);
+  //Timeout to calculate only after 600 ms delay
+  timeoutId = setTimeout(() => {
+    const numValue = parseInt(this.value);
+    //Check out input
+    if (typeof numValue === "number" && this.value > 0) {
+      const _state = state.getState();
+      _state.inputs[parseInt(this.id, 10)] = numValue;
+      state.updateState(_state);
+    }
+  }, 600);
 }
 
 export default initProblemPage;

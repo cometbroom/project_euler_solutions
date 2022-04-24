@@ -1,8 +1,9 @@
 import gsap from "gsap";
-import { sleepFor } from "../tools/sleep";
 import { INACTIVE_BTN, NAVIGATOR_QUERY, UI_QUERY } from "../constants";
 import { appData } from "../data/data";
 import router from "../lib/router";
+
+//WN Write Jest testing for components and pages.
 
 export const setupNavigator = (state) => {
   const { section, prevBtn, nextBtn } = getSectionElements();

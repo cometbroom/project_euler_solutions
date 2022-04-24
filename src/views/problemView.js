@@ -1,5 +1,6 @@
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
+import getLoadingScreen from "../components/loading";
 hljs.registerLanguage("javascript", javascript);
 import { createElement } from "../tools/DOMCreate";
 
@@ -27,7 +28,7 @@ function createElStructure() {
   const title = createElement("h2");
   const inputs = createElement("div", { class: "p-inputs" });
   const codeBlock = createElement("pre", { classes: ["language-javascript"] });
-  const result = createElement("h3");
+  const result = createElement("div", { class: "result-display" });
   return { root, title, inputs, codeBlock, result };
 }
 
@@ -37,9 +38,7 @@ const updateView = (elements, props, newState) => {
   )}`;
   assignInputs(elements.inputs, props.onKeyUp, newState);
   assignCodeBlock(elements.codeBlock, newState);
-  elements.result.textContent = `Result: ${newState.result(
-    ...newState.inputs
-  )}`;
+  resultCalculatorProcess(newState, elements);
 };
 
 const assignInputs = (target, inputChange, state) => {
@@ -63,3 +62,34 @@ const assignCodeBlock = (target, state) => {
   target.textContent = state.result;
   hljs.highlightElement(target);
 };
+
+function resultCalculatorProcess(newState, elements) {
+  let solverProcess = new Worker("src/data/problemWorker.js", {
+    type: "module",
+  });
+  //Reset our result's inner html.
+  elements.result.innerHTML = "";
+
+  //Get our loading screen object appended to result div
+  const loadingScreen = getLoadingScreen(elements.result);
+
+  //Inquiry to our worker
+  solverProcess.postMessage(["problem", newState.current, newState.inputs]);
+  const startTimer = Date.now();
+
+  //Process DOM after our worker is done
+  solverProcess.onmessage = function (e) {
+    loadingScreen.clear();
+    createResultElement(elements.result, e.data, Date.now() - startTimer);
+  };
+}
+
+function createResultElement(root, result, loadedIn) {
+  const resultDisplay = createElement("h3", { content: `Result: ${result}` });
+  const classes = loadedIn > 1000 ? ["red"] : ["green"];
+  const loadDisplay = createElement("h4", {
+    content: `Loaded in: ${loadedIn} ms`,
+    classes,
+  });
+  root.append(resultDisplay, loadDisplay);
+}

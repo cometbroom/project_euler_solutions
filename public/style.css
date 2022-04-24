@@ -3,6 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+.green {
+  color: rgb(18, 194, 27);
+}
+.red {
+  color: rgb(207, 17, 43);
+}
+
+
 
 main {
   display: grid;
@@ -52,6 +60,11 @@ section.ui input {
   margin: 0px 5px 0px 5px;
   text-align: center;
   flex: 1;
+}
+
+section.ui .result-display {
+  display: flex;
+  justify-content: space-between;
 }
 
 section.navigator {
