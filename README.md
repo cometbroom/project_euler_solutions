@@ -7,7 +7,7 @@ Just press next and previous to navigate the algorithms and see how fast they ar
 
 Here is a screenshot of the web app, read more below about the development:
 
-![Screenshot of the web app](./assets/home%20screenshot.png)
+![Screenshot of the web app](./assets/home%20screenshot.PNG)
 
 ## Development
 I made this app with HTML/CSS and vanilla javascript. I used some libraries which are:
