@@ -11,6 +11,11 @@
 }
 
 
+body {
+font-size: 2em;
+}
+  
+
 
 main {
   display: grid;
@@ -32,7 +37,7 @@ pre {
   border-radius: 3px;
   padding: 20px 10px;
   margin: 10px 0px;
-  height: 300px;
+  height: 600px;
   overflow-y: scroll;
 }
 
@@ -53,11 +58,13 @@ section.ui h2 {
 
 section.ui .p-inputs {
   display: flex;
+  width: 100%;
 }
 
 section.ui input {
   margin: 0px 5px 0px 5px;
   text-align: center;
+  font-size: 1em;
   flex: 1;
 }
 
