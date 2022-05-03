@@ -80,6 +80,7 @@ function resultCalculatorProcess(newState, elements) {
   solverProcess.onmessage = function (e) {
     loadingScreen.clear();
     createResultElement(elements.result, e.data, Date.now() - startTimer);
+    solverProcess.terminate();
   };
 }
 
