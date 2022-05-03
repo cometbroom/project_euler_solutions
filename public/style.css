@@ -12,7 +12,7 @@
 
 
 body {
-font-size: 2em;
+font-size: 1.5em;
 }
   
 
@@ -28,7 +28,7 @@ main {
 }
 
 section.ui {
-  grid-column: -2/2;
+  grid-column: 2/-2;
   position: relative;
 }
 
@@ -38,7 +38,7 @@ pre {
   padding: 20px 10px;
   margin: 10px 0px;
   height: 600px;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 section.ui {
@@ -50,6 +50,7 @@ section.ui .problem-view {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 section.ui h2 {
@@ -58,6 +59,8 @@ section.ui h2 {
 
 section.ui .p-inputs {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   width: 100%;
 }
 
@@ -71,9 +74,6 @@ section.ui input {
 section.ui .result-display {
   display: flex;
   justify-content: space-between;
-}
-
-section.navigator {
 }
 
 button {
@@ -108,7 +108,7 @@ button:hover {
 }
 
 section.navigator {
-  grid-column: -2/2;
+  grid-column: 2/-2;
   display: flex;
   gap: 10px;
   justify-content: space-between;
@@ -116,4 +116,58 @@ section.navigator {
 }
 section.navigator button {
   flex: 1;
+}
+
+@media only screen and (max-width: 1200px) {
+  body {
+    font-size: 1.2em;
+  }
+  pre {
+    height: 500px;
+  }
+  
+}
+
+@media only screen and (max-width: 458px) {
+  body {
+    font-size: 1em;
+  }
+  pre {
+    height: 500px;
+  }
+  div.problem-view h2 {
+    font-size: 1.2em;
+  }
+  section {
+    padding: 0 10px;
+  }
+  section.ui {
+    grid-column: 1/-1;
+  }
+  section.navigator {
+    grid-column: 1/-1;
+  }
+
+  
+}
+
+
+@media only screen and (max-height: 820px) {
+  body {
+    font-size: 1.2em;
+  }
+  pre {
+    height: 300px;
+  }
+  
+}
+
+@media only screen and (max-height: 592px) {
+  body {
+    font-size: 1.2em;
+  }
+  pre {
+    height: 300px;
+  }
+  
 }
