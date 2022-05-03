@@ -2,7 +2,7 @@ import { createElement } from "../tools/DOMCreate";
 
 const loadingData = {
   dots: 0,
-  text: "Loading",
+  text: "Calculating",
   colorArray: [],
 };
 

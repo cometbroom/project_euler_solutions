@@ -29,7 +29,6 @@ section.ui {
 
 pre {
   background-color: rgb(228, 227, 227);
-  border: 2px solid gray;
   border-radius: 3px;
   padding: 20px 10px;
   margin: 10px 0px;
@@ -74,10 +73,10 @@ button {
   color: white;
   border: none;
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 6px;
   font-size: 1.2em;
   cursor: pointer;
-  transition: box-shadow 0.3s, filter 0.3s;
+  transition: box-shadow 0.3s, filter 0.3s, border-radius 0.3s;
 }
 button:nth-child(1) {
   background-color: #652487;
@@ -89,14 +88,16 @@ button:nth-child(2) {
 }
 
 button:hover {
+  border-radius: 4px;
   box-shadow: 2px 2px 5px black;
-  filter: brightness(1.2);
+  filter: brightness(1.1);
 }
 
 .inactive-btn {
   background-color: gray!important;
   background-image:none!important;
-  cursor:not-allowed;
+  pointer-events: none;
+
 }
 
 section.navigator {

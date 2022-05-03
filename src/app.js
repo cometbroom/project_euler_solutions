@@ -4,7 +4,7 @@ import { routes } from "./pages/routes.js";
 import { createElement } from "./tools/DOMCreate.js";
 
 function loadApp() {
-  log.setLevel("debug");
+  log.setLevel("error");
 
   const appRoot = document.querySelector("section.ui");
 

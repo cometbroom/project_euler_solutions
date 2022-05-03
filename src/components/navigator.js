@@ -2,67 +2,57 @@ import gsap from "gsap";
 import { INACTIVE_BTN, NAVIGATOR_QUERY, UI_QUERY } from "../constants";
 import { appData } from "../data/data";
 import router from "../lib/router";
+import { currentPage } from "../pages/problemPage";
+import { addQuestionAnimation } from "./animations";
 
 //WN Write Jest testing for components and pages.
 
+let alreadyCreated = false;
+let _prevBtn;
+let _nextBtn;
+let _currentPagePure = null;
+
 export const setupNavigator = (state) => {
-  const { section, prevBtn, nextBtn } = getSectionElements();
-  setInactive(prevBtn, nextBtn);
+  if (_currentPagePure === null) _currentPagePure = currentPage;
+  setSectionElements();
 
-  const updateFcn = (newState) => {
-    if (newState.current > 0) setupButton(newState, prevBtn, "prev");
-    if (newState.current < appData.problems.length - 1)
-      setupButton(newState, nextBtn, "next");
-  };
+  setInactive([_prevBtn, _nextBtn]);
 
-  state.subscribe(updateFcn);
+  if (alreadyCreated) return;
+  if (_currentPagePure > 0) setupButton(_prevBtn, "prev");
+  if (_currentPagePure < appData.problems.length - 1)
+    setupButton(_nextBtn, "next");
 };
 
-const getSectionElements = () => {
+const setSectionElements = () => {
   const section = document.querySelector(NAVIGATOR_QUERY);
-  const [prevBtn, nextBtn] = section.querySelectorAll("button");
-  return { section, prevBtn, nextBtn };
+  [_prevBtn, _nextBtn] = section.querySelectorAll("button");
 };
 
-function setInactive(prevBtn, nextBtn) {
-  prevBtn.classList.add(INACTIVE_BTN);
-  prevBtn.onclick = null;
-  nextBtn.classList.add(INACTIVE_BTN);
-  nextBtn.onclick = null;
+function setInactive(btns) {
+  btns.forEach((btn) => {
+    btn.classList.add(INACTIVE_BTN);
+    btn.onclick = null;
+  });
 }
 
-const setupButton = (state, target, move) => {
+const setupButton = (target, move) => {
   target.classList.remove(INACTIVE_BTN);
+
   target.onclick = function () {
     switch (move) {
       case "next":
-        animate(state.current + 1, true);
+        if (_currentPagePure < appData.problems.length - 1) {
+          _currentPagePure++;
+          addQuestionAnimation("next", _currentPagePure);
+        }
         break;
       case "prev":
-        animate(state.current - 1);
+        if (_currentPagePure > 0) {
+          _currentPagePure--;
+          addQuestionAnimation("prev", _currentPagePure);
+        }
         break;
     }
   };
 };
-let timeoutId;
-
-function animate(navTarget, next) {
-  const duration = 0.4;
-  const [left1, left2] = next ? ["-100%", "100%"] : ["100%", "-100%"];
-  gsap.fromTo(
-    UI_QUERY,
-    { left: "0%", opacity: 1 },
-    { left: left1, opacity: 0, duration }
-  );
-  router.navigateTo("problems", navTarget);
-  clearTimeout(timeoutId);
-
-  //Sleep for animation go duration then navigate to next page and do animation come
-  timeoutId = setTimeout(() => {
-    gsap.fromTo(
-      UI_QUERY,
-      { left: left2, opacity: 0 },
-      { left: "0%", opacity: 1, duration }
-    );
-  }, duration * 1000 + 100);
-}

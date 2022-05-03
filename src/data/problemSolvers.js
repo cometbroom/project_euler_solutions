@@ -44,4 +44,29 @@ const largestPrimeFactor = function (in1) {
   return -1;
 };
 
-export default [sumMultiplesOf3n5, evenFibonacciNums, largestPrimeFactor];
+const largestPalindromeProduct = function () {
+  let largest = 0;
+
+  //Our minimum and maximum value for brute solving 3 digits.
+  const [min, max] = [100, 999];
+  for (let i = max; i >= min; --i) {
+    for (let j = max; j >= min; --j) {
+      let solution = i * j;
+      let reversedSolution = parseInt(
+        solution.toString().split("").reverse().join(""),
+        10
+      );
+      //Filter the maximum
+      if (reversedSolution == solution && solution > largest)
+        largest = solution;
+    }
+  }
+  return largest;
+};
+
+export default [
+  sumMultiplesOf3n5,
+  evenFibonacciNums,
+  largestPrimeFactor,
+  largestPalindromeProduct,
+];

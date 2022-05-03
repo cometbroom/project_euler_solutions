@@ -18,5 +18,10 @@ export const appData = {
       inputs: [600851475143],
       result: pSolvers[2],
     },
+    {
+      title: () => `Largest palindrome from 3-digit numbers`,
+      inputs: [],
+      result: pSolvers[3],
+    },
   ],
 };

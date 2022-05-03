@@ -18,7 +18,6 @@ export const createProblemElement = (state, props) => {
     root,
     pageWillUnload: () => {
       state.unsubscribe(updateState);
-      console.count(state);
     },
   };
 };
@@ -88,7 +87,7 @@ function createResultElement(root, result, loadedIn) {
   const resultDisplay = createElement("h3", { content: `Result: ${result}` });
   const classes = loadedIn > 1000 ? ["red"] : ["green"];
   const loadDisplay = createElement("h4", {
-    content: `Loaded in: ${loadedIn} ms`,
+    content: `Calculated in: ${loadedIn} ms`,
     classes,
   });
   root.append(resultDisplay, loadDisplay);
