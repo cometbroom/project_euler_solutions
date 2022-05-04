@@ -4,6 +4,8 @@ import getLoadingScreen from "../components/loading.js";
 hljs.registerLanguage("javascript", javascript);
 import { createElement } from "../tools/DOMCreate.js";
 
+const workerList = [];
+
 export const createProblemElement = (state, props) => {
   const { root, ...children } = createElStructure();
 
@@ -63,7 +65,8 @@ const assignCodeBlock = (target, state) => {
 };
 
 function resultCalculatorProcess(newState, elements) {
-  let solverProcess = new Worker("src/data/problemWorker.js", {
+  clearThreads();
+  const solverProcess = new Worker("src/data/problemWorker.js", {
     type: "module",
   });
   //Reset our result's inner html.
@@ -82,6 +85,15 @@ function resultCalculatorProcess(newState, elements) {
     createResultElement(elements.result, e.data, Date.now() - startTimer);
     solverProcess.terminate();
   };
+  workerList.push(solverProcess);
+}
+
+function clearThreads() {
+  workerList.forEach((worker, index) => {
+    worker.terminate();
+    worker = null;
+    workerList.splice(index, 1);
+  });
 }
 
 function createResultElement(root, result, loadedIn) {
