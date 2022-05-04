@@ -12,7 +12,7 @@ function getLoadingScreen(appendTo) {
    * @param {HTMLElement} appendTo - Target to append to
    * @returns {Object} An object with clear method to clear the loading screen.
    */
-  const display = createElement("h1", { class: "loading" });
+  const display = createElement("h3", { class: "loading" });
   appendTo.appendChild(display);
   const intervalId = animateLoading(display);
 
@@ -25,6 +25,7 @@ function getLoadingScreen(appendTo) {
 }
 
 function animateLoading(display) {
+  displayLoadingData(display, loadingData);
   return setInterval(() => {
     displayLoadingData(display, loadingData);
     loadingData.dots++;
