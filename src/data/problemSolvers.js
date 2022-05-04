@@ -36,7 +36,7 @@ const evenFibonacciNums = function (in1) {
 };
 
 const largestPrimeFactor = function (in1) {
-  //We only to to search until the square root to find prime factor
+  //We only have to search until the square root to find prime factor
   const getSearchMax = (num) => Math.ceil(Math.sqrt(num));
 
   const isPrime = (num) => {
