@@ -1,15 +1,15 @@
-import gsap from "gsap";
+import gsap from "../../snowpack/pkg/gsap.js";
 import {
   INACTIVE_BTN,
   MAIN_QUERY,
   NAVIGATOR_QUERY,
   UI_QUERY,
-} from "../constants";
-import { appData } from "../data/data";
-import router from "../lib/router";
-import { currentPage } from "../pages/problemPage";
-import { createElement } from "../tools/DOMCreate";
-import { addQuestionAnimation } from "./animations";
+} from "../constants.js";
+import { appData } from "../data/data.js";
+import router from "../lib/router.js";
+import { currentPage } from "../pages/problemPage.js";
+import { createElement } from "../tools/DOMCreate.js";
+import { addQuestionAnimation } from "./animations.js";
 
 //WN Write Jest testing for components and pages.
 

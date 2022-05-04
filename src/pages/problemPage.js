@@ -1,8 +1,8 @@
-import { setupNavigator } from "../components/navigator";
-import { appData } from "../data/data";
-import createObservableState from "../lib/observableState";
-import { C_TYPE } from "../tools/checkType";
-import { createProblemElement } from "../views/problemView";
+import { setupNavigator } from "../components/navigator.js";
+import { appData } from "../data/data.js";
+import createObservableState from "../lib/observableState.js";
+import { C_TYPE } from "../tools/checkType.js";
+import { createProblemElement } from "../views/problemView.js";
 
 let state = createObservableState();
 const props = {

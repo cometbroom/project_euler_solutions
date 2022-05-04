@@ -1,8 +1,8 @@
-import hljs from "highlight.js/lib/core";
-import javascript from "highlight.js/lib/languages/javascript";
-import getLoadingScreen from "../components/loading";
+import hljs from "../../snowpack/pkg/highlightjs/lib/core.js";
+import javascript from "../../snowpack/pkg/highlightjs/lib/languages/javascript.js";
+import getLoadingScreen from "../components/loading.js";
 hljs.registerLanguage("javascript", javascript);
-import { createElement } from "../tools/DOMCreate";
+import { createElement } from "../tools/DOMCreate.js";
 
 const workerList = [];
 
