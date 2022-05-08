@@ -17,9 +17,6 @@ function createProblemPage(problemNum = "0") {
   const pageDidLoad = () => {
     state$.subscribe(view.update);
     state$.updateState({ problemNum: problemNum });
-    new Promise((resolve) => {
-      setTimeout(resolve, 2000);
-    }).then(() => state$.updateState({ animation: "end" }));
     solveProblem();
   };
 

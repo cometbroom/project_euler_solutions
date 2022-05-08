@@ -2,6 +2,7 @@ import createNavigatorComponent from "./components/navigatorComponent.js";
 import log from "./lib/logger.js";
 import router from "./lib/router.js";
 import { routes } from "./pages/routes.js";
+import state$ from "./state.js";
 import { createElement } from "./tools/DOMCreate.js";
 
 function loadApp() {
@@ -19,3 +20,7 @@ function loadApp() {
   router.start(routes, pageRoot);
 }
 window.addEventListener("load", loadApp);
+
+window.elapsedSet = (num) => {
+  state$.updateState({ elapsed: num });
+};

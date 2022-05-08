@@ -21,6 +21,13 @@ function createAlgorithmView() {
 
     result.textContent = `Result: ${state.result}`;
     elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
+    if (state.elapsed < 200) elapsed.style.color = "rgb(18, 194, 27)";
+    else {
+      const [hslMax, bounder] = [30, 1000];
+      const timeToHslDeg = hslMax - state.elapsed / bounder;
+      if (timeToHslDeg < 0) elapsed.style.color = "red";
+      else elapsed.style.color = `hsl(${timeToHslDeg}, 100%, 50%)`;
+    }
   };
 
   return { root, update };
