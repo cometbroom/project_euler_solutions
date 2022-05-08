@@ -50,7 +50,7 @@ export function animate(next, currentPage) {
       );
       //Sleep for animation go duration then navigate to next page and do animation come
       setTimeout(() => {
-        router.navigateTo("algorithm", currentPage);
+        router.navigateTo("problems", currentPage);
         gsap.fromTo(
           UI_QUERY,
           { left: left2, opacity: 0 },
