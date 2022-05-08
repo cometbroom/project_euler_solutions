@@ -9,7 +9,7 @@ import { appData } from "../data/data";
 import router from "../lib/router";
 import { currentPage } from "../pages/problemPage";
 import { createElement } from "../tools/DOMCreate";
-import { addQuestionAnimation } from "./animations";
+import { addSwipeAnimation } from "./animations";
 
 //WN Write Jest testing for components and pages.
 
@@ -66,13 +66,13 @@ const setupButton = (target, move) => {
       case "next":
         if (_currentPagePure < appData.problems.length - 1) {
           _currentPagePure++;
-          addQuestionAnimation("next", _currentPagePure);
+          addSwipeAnimation("next", _currentPagePure);
         }
         break;
       case "prev":
         if (_currentPagePure > 0) {
           _currentPagePure--;
-          addQuestionAnimation("prev", _currentPagePure);
+          addSwipeAnimation("prev", _currentPagePure);
         }
         break;
     }

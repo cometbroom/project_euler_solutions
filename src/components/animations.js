@@ -6,7 +6,7 @@ const tasks = [];
 let finished = true;
 const duration = 0.4;
 
-export const addQuestionAnimation = function (target, currentPage) {
+export const addSwipeAnimation = function (target, currentPage) {
   //See if next page called or previous and add to tasks
   switch (target) {
     case "next":
@@ -50,7 +50,7 @@ export function animate(next, currentPage) {
       );
       //Sleep for animation go duration then navigate to next page and do animation come
       setTimeout(() => {
-        router.navigateTo("problems", currentPage);
+        router.navigateTo("algorithm", currentPage);
         gsap.fromTo(
           UI_QUERY,
           { left: left2, opacity: 0 },
@@ -59,7 +59,7 @@ export function animate(next, currentPage) {
         setTimeout(() => {
           resolve();
         }, duration * 1000);
-      }, duration * 1000 + 100);
+      }, duration * 1000);
     });
   };
 }
