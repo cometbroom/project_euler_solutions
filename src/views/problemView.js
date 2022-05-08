@@ -4,7 +4,7 @@ import { createElement } from "../tools/DOMCreate";
 
 hljs.registerLanguage("javascript", javascript);
 
-function createAlgorithmView() {
+function createProblemView() {
   const { root, result, elapsed, ...children } = createElStructure();
   root.append(...Object.values(children));
 
@@ -48,4 +48,4 @@ function createElStructure() {
   return { root, title, inputs, codeBlock, resultContainer, result, elapsed };
 }
 
-export default createAlgorithmView;
+export default createProblemView;

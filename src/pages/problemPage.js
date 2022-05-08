@@ -1,7 +1,7 @@
 import { appData } from "../data/data";
 import solveProblem from "../helpers/solveProblem";
 import state$ from "../state";
-import createAlgorithmView from "../views/problemView";
+import createProblemView from "../views/problemView";
 
 state$.updateState({ problems: appData.problems });
 
@@ -12,7 +12,7 @@ function createProblemPage(problemNum = "0") {
   if (problemNum < 0 || problemNum >= state$.getState().problems.length) {
     router.navigateTo("main", 0);
   }
-  const view = createAlgorithmView();
+  const view = createProblemView();
 
   const pageDidLoad = () => {
     state$.subscribe(view.update);
