@@ -1,6 +1,6 @@
-import state$ from "../state";
-import createNavigatorView from "../views/navigatorView";
-import { addSwipeAnimation } from "./animations";
+import state$ from "../state.js";
+import createNavigatorView from "../views/navigatorView.js";
+import { addSwipeAnimation } from "./animations.js";
 
 function createNavigatorComponent() {
   const onPrevClick = () => {

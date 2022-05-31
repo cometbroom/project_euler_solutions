@@ -1,6 +1,6 @@
-import gsap from "gsap";
-import { UI_QUERY } from "../constants";
-import router from "../lib/router";
+import gsap from "../../snowpack/pkg/gsap.js";
+import { UI_QUERY } from "../constants.js";
+import router from "../lib/router.js";
 
 const tasks = [];
 let finished = true;
