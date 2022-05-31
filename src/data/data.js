@@ -1,4 +1,4 @@
-import pSolvers from "./problemSolvers";
+import pSolvers from "./problemSolvers.js";
 
 export const appData = {
   problems: [
