@@ -15,6 +15,7 @@ function createProblemView(props) {
     title.textContent = `Problem ${state.problemNum + 1}: ${problem.title(
       ...problem.inputs
     )}`;
+    //Add out inputs according to our state and add event listeners
     assignInputs(inputs, props.inputKeyUp, problem);
 
     codeBlock.textContent = problem.result.toString();
