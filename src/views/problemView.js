@@ -4,17 +4,18 @@ import { createElement } from "../tools/DOMCreate";
 
 hljs.registerLanguage("javascript", javascript);
 
-function createProblemView() {
+function createProblemView(props) {
   const { root, result, elapsed, ...children } = createElStructure();
   root.append(...Object.values(children));
 
-  const { codeBlock, title } = children;
+  const { codeBlock, title, inputs } = children;
 
   const update = (state) => {
     const problem = state.problems[state.problemNum];
     title.textContent = `Problem ${state.problemNum + 1}: ${problem.title(
       ...problem.inputs
     )}`;
+    assignInputs(inputs, props.inputKeyUp, problem);
 
     codeBlock.textContent = problem.result.toString();
     hljs.highlightElement(codeBlock);
@@ -32,6 +33,26 @@ function createProblemView() {
 
   return { root, update };
 }
+
+const assignInputs = (target, inputChange, problem) => {
+  const inputs = problem.inputs;
+  //Go through inputs and see if we can find by id, if not then they need to be created.
+  for (let i = 0; i < inputs.length; ++i) {
+    const inputEl = document.getElementById(`${i} input`);
+    if (!inputEl)
+      createInput(`${i} input`, "text", inputs[i], target, inputChange);
+    else inputEl.value = inputs[i];
+    //Don't append if we already have inputs
+    if (!target.hasChildNodes()) target.appendChild(inputEl);
+  }
+};
+
+const createInput = (id, type, value, appendTarget, inputChange) => {
+  //Create input element with id type and value
+  const input = createElement("input", { id, type, value });
+  input.addEventListener("input", inputChange);
+  appendTarget.appendChild(input);
+};
 
 function createElStructure() {
   const root = createElement("div", { class: "problem-view" });
