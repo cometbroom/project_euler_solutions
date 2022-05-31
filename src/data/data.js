@@ -1,4 +1,4 @@
-import pSolvers from "./problemSolvers";
+import pSolvers from "./problemSolvers.js";
 
 export const appData = {
   problems: [
@@ -19,9 +19,14 @@ export const appData = {
       result: pSolvers[2],
     },
     {
-      title: () => `Largest palindrome from 3-digit numbers`,
-      inputs: [],
+      title: (in1) => `Largest palindrome from ${in1}-digit numbers`,
+      inputs: [3],
       result: pSolvers[3],
+    },
+    {
+      title: (in1) => `Smallest multiple of numbers from 1 to ${in1}`,
+      inputs: [20],
+      result: pSolvers[4],
     },
   ],
 };
