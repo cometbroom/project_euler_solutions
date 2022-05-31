@@ -48,7 +48,7 @@ function inputKeyUpHandler() {
       inputs[parseInt(this.id, 10)] = numValue;
 
       //Update state to refresh displays
-      state$.updateState({ inputs });
+      state$.updateState({ inputs, loading: true });
       solveProblem();
     }
   }, 600);

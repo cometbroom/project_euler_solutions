@@ -22,6 +22,8 @@ function createProblemView(props) {
 
     result.textContent = `Result: ${state.result}`;
     elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
+    if (state.loading) elapsed.textContent = `Loading...`;
+    if (state.timeout) elapsed.textContent = `Timeout.`;
     if (state.elapsed < 200) elapsed.style.color = "rgb(18, 194, 27)";
     else {
       const [hslMax, bounder] = [30, 1000];

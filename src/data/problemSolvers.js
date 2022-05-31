@@ -55,12 +55,13 @@ const largestPrimeFactor = function (in1) {
   return -1;
 };
 
-const largestPalindromeProduct = function () {
+const largestPalindromeProduct = function (digits) {
   let largest = 0;
 
-  //Our minimum and maximum value for brute solving 3 digits.
-  const [min, max] = [100, 999];
-  //for 999 check until 100 then 998 etc...
+  //Our minimum and maximum value taken by counting digits. 3 would get 100 to 999.
+  const [min, max] = [Math.pow(10, digits - 1), Math.pow(10, digits) - 1];
+  //for 999 check until 100 then 998 check until 100 etc...
+  //this is until I find a faster algorithm
   for (let i = max; i >= min; --i) {
     for (let j = max; j >= min; --j) {
       let solution = i * j;
