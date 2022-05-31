@@ -135,13 +135,11 @@ const smallestMultipleNum = function (in1) {
 
   //Our result needs to be multiplied by greatest power of factors
   let result = 1;
-  console.log(factors);
   factors.forEach((factor) => {
     //While square of factor is smaller than our input, keep squaring to get greatest power
     //So for example 2 would get 16 when input is 20 as 32 becomes greater
     const factorPrevious = factor;
     while (factor * factorPrevious <= in1) factor *= factorPrevious;
-    console.log(factor);
     //Multiply our greatest power to the result
     result *= factor;
   });
