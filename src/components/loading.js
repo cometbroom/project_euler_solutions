@@ -1,4 +1,4 @@
-import { createElement } from "../tools/DOMCreate.js";
+import { createElement } from "../tools/DOMCreate";
 
 const loadingData = {
   dots: 0,

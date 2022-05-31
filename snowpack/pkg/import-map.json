@@ -1,7 +1,0 @@
-{
-  "imports": {
-    "gsap": "./gsap.js",
-    "highlight.js/lib/core": "./highlightjs/lib/core.js",
-    "highlight.js/lib/languages/javascript": "./highlightjs/lib/languages/javascript.js"
-  }
-}

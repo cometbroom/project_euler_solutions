@@ -1,5 +1,5 @@
 import log from './lib/logger.js';
-import createObservableState from './lib/observableState.js';
+import createObservableState from './lib/observableState';
 
 const state$ = createObservableState();
 state$.subscribe((state) => {
