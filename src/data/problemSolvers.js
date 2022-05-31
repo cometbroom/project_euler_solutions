@@ -55,12 +55,13 @@ const largestPrimeFactor = function (in1) {
   return -1;
 };
 
-const largestPalindromeProduct = function () {
+const largestPalindromeProduct = function (digits) {
   let largest = 0;
 
-  //Our minimum and maximum value for brute solving 3 digits.
-  const [min, max] = [100, 999];
-  //for 999 check until 100 then 998 etc...
+  //Our minimum and maximum value taken by counting digits. 3 would get 100 to 999.
+  const [min, max] = [Math.pow(10, digits - 1), Math.pow(10, digits) - 1];
+  //for 999 check until 100 then 998 check until 100 etc...
+  //this is until I find a faster algorithm
   for (let i = max; i >= min; --i) {
     for (let j = max; j >= min; --j) {
       let solution = i * j;
@@ -76,9 +77,81 @@ const largestPalindromeProduct = function () {
   return largest;
 };
 
+// const smallestMultipleNum = function (x) {
+//   //Some numbers don't need to be checked
+//   //for example numbers that are factorable by 20 are also factorable by 2
+//   const searchArray = (x) => {
+//     const uniqueDivisors = [];
+//     //Start from 2 as everything is divisible by 1
+//     for (let i = 2; i <= x; ++i) {
+//       //Minimize redundancy by taking the numbers whose multiple (by 2) is not in our domain
+//       if (i * 2 > x) uniqueDivisors.push(i);
+//     }
+//     return uniqueDivisors;
+//   };
+
+//   const divisors = searchArray(x);
+//   //Go through all numbers to find our smallest multiple
+//   for (let i = x; i < Number.MAX_VALUE; i += x) {
+//     //Boolean to dictate the loop
+//     let keepSearching = false;
+//     //Loop through our divisors to check if our number is divisible by all
+//     for (let j = 0; j < divisors.length; j++) {
+//       //As soon as 1 divisor has a remainder, we no longer need to check the rest
+//       if (i % divisors[j] !== 0) {
+//         keepSearching = true;
+//         break;
+//       }
+//     }
+//     //If this boolean stays false, that means our number is found
+//     //Without this we had to divide domain with every divisor, this is to save calculation
+//     if (keepSearching === false) return i;
+//   }
+// };
+
+const smallestMultipleNum = function (in1) {
+  //Find prime factors of our number
+  function primeFactors(number) {
+    const factors = [];
+    let divisor = 2;
+
+    //While bigger than 2, keep dividing by relevant divisor and pushing factor
+    while (number >= 2) {
+      if (number % divisor === 0) {
+        factors.push(divisor);
+        number = number / divisor;
+      } else divisor++;
+    }
+    return factors;
+  }
+
+  //Have a set of divisors for unique numbers
+  const factors = new Set();
+
+  //Find factors of numbers up to our target
+  for (let i = 2; i <= in1; ++i) {
+    primeFactors(i).forEach((factor) => factors.add(factor));
+  }
+
+  //Our result needs to be multiplied by greatest power of factors
+  let result = 1;
+  console.log(factors);
+  factors.forEach((factor) => {
+    //While square of factor is smaller than our input, keep squaring to get greatest power
+    //So for example 2 would get 16 when input is 20 as 32 becomes greater
+    const factorPrevious = factor;
+    while (factor * factorPrevious <= in1) factor *= factorPrevious;
+    console.log(factor);
+    //Multiply our greatest power to the result
+    result *= factor;
+  });
+  return result;
+};
+
 export default [
   sumMultiplesOf3n5,
   evenFibonacciNums,
   largestPrimeFactor,
   largestPalindromeProduct,
+  smallestMultipleNum,
 ];

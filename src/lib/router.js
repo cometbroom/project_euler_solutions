@@ -69,9 +69,9 @@ async function onHashChange(routerState) {
     }
   }
 
-  // If the page is a promise (i.e. and object with a `.then` property),
+  // If the page is a promise then await it (dynamic import)
   // await it (dynamic import).
-  if (newPage.then) {
+  if (newPage instanceof Promise) {
     const module = await newPage;
     const pageFn = module.default;
     newPage = pageFn(...params);
@@ -88,6 +88,12 @@ async function onHashChange(routerState) {
 
   // Reset scroll position to top of page
   window.scrollTo(0, 0);
+
+  // Call optional didMount lifecycle method.
+  if (newPage.pageDidLoad) {
+    log.silly("router", "calling pageDidLoad()");
+    newPage.pageDidLoad();
+  }
 
   routerState.currentPage = newPage;
 }

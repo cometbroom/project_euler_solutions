@@ -1,27 +1,60 @@
 import hljs from "../../snowpack/pkg/highlightjs/lib/core.js";
 import javascript from "../../snowpack/pkg/highlightjs/lib/languages/javascript.js";
-import getLoadingScreen from "../components/loading.js";
-hljs.registerLanguage("javascript", javascript);
 import { createElement } from "../tools/DOMCreate.js";
 
-const workerList = [];
+hljs.registerLanguage("javascript", javascript);
 
-export const createProblemElement = (state, props) => {
-  const { root, ...children } = createElStructure();
-
-  const updateState = (newState) => {
-    updateView(children, props, newState);
-  };
-
+function createProblemView(props) {
+  const { root, result, elapsed, ...children } = createElStructure();
   root.append(...Object.values(children));
 
-  state.subscribe(updateState);
-  return {
-    root,
-    pageWillUnload: () => {
-      state.unsubscribe(updateState);
-    },
+  const { codeBlock, title, inputs } = children;
+
+  const update = (state) => {
+    const problem = state.problems[state.problemNum];
+    title.textContent = `Problem ${state.problemNum + 1}: ${problem.title(
+      ...problem.inputs
+    )}`;
+    //Add out inputs according to our state and add event listeners
+    assignInputs(inputs, props.inputKeyUp, problem);
+
+    codeBlock.textContent = problem.result.toString();
+    hljs.highlightElement(codeBlock);
+
+    result.textContent = `Result: ${state.result}`;
+    elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
+    if (state.loading) elapsed.textContent = `Loading...`;
+    if (state.timeout) elapsed.textContent = `Timeout.`;
+    if (state.elapsed < 200) elapsed.style.color = "rgb(18, 194, 27)";
+    else {
+      const [hslMax, bounder] = [30, 1000];
+      const timeToHslDeg = hslMax - state.elapsed / bounder;
+      if (timeToHslDeg < 0) elapsed.style.color = "red";
+      else elapsed.style.color = `hsl(${timeToHslDeg}, 100%, 50%)`;
+    }
   };
+
+  return { root, update };
+}
+
+const assignInputs = (target, inputChange, problem) => {
+  const inputs = problem.inputs;
+  //Go through inputs and see if we can find by id, if not then they need to be created.
+  for (let i = 0; i < inputs.length; ++i) {
+    const inputEl = document.getElementById(`${i} input`);
+    if (!inputEl)
+      createInput(`${i} input`, "text", inputs[i], target, inputChange);
+    else inputEl.value = inputs[i];
+    //Don't append if we already have inputs
+    if (!target.hasChildNodes()) target.appendChild(inputEl);
+  }
+};
+
+const createInput = (id, type, value, appendTarget, inputChange) => {
+  //Create input element with id type and value
+  const input = createElement("input", { id, type, value });
+  input.addEventListener("input", inputChange);
+  appendTarget.appendChild(input);
 };
 
 function createElStructure() {
@@ -29,79 +62,14 @@ function createElStructure() {
   const title = createElement("h2");
   const inputs = createElement("div", { class: "p-inputs" });
   const codeBlock = createElement("pre", { classes: ["language-javascript"] });
-  const result = createElement("div", { class: "result-display" });
-  return { root, title, inputs, codeBlock, result };
-}
-
-const updateView = (elements, props, newState) => {
-  elements.title.textContent = `Problem ${newState.current}: ${newState.title(
-    ...newState.inputs
-  )}`;
-  assignInputs(elements.inputs, props.onKeyUp, newState);
-  assignCodeBlock(elements.codeBlock, newState);
-  resultCalculatorProcess(newState, elements);
-};
-
-const assignInputs = (target, inputChange, state) => {
-  const inputsState = state.inputs;
-  for (let i = 0; i < inputsState.length; ++i) {
-    const inputEl = document.getElementById(`${i} input`);
-    if (!inputEl)
-      createInput(`${i} input`, "text", inputsState[i], target, inputChange);
-    else inputEl.value = inputsState[i];
-    if (!target.hasChildNodes()) target.appendChild(inputEl);
-  }
-};
-
-const createInput = (id, type, value, appendTarget, inputChange) => {
-  const input = createElement("input", { id, type, value });
-  input.addEventListener("input", inputChange);
-  appendTarget.appendChild(input);
-};
-
-const assignCodeBlock = (target, state) => {
-  target.textContent = state.result;
-  hljs.highlightElement(target);
-};
-
-function resultCalculatorProcess(newState, elements) {
-  clearThreads();
-  const solverProcess = new Worker("src/data/problemWorker.js", {
-    type: "module",
+  const resultContainer = createElement("div", { class: "result-display" });
+  const result = createElement("h3", { content: `Result: ...` });
+  const elapsed = createElement("h4", {
+    content: `Calculated in: ...`,
   });
-  //Reset our result's inner html.
-  elements.result.innerHTML = "";
+  resultContainer.append(result, elapsed);
 
-  //Get our loading screen object appended to result div
-  const loadingScreen = getLoadingScreen(elements.result);
-
-  //Inquiry to our worker
-  solverProcess.postMessage(["problem", newState.current, newState.inputs]);
-  const startTimer = Date.now();
-
-  //Process DOM after our worker is done
-  solverProcess.onmessage = function (e) {
-    loadingScreen.clear();
-    createResultElement(elements.result, e.data, Date.now() - startTimer);
-    solverProcess.terminate();
-  };
-  workerList.push(solverProcess);
+  return { root, title, inputs, codeBlock, resultContainer, result, elapsed };
 }
 
-function clearThreads() {
-  workerList.forEach((worker, index) => {
-    worker.terminate();
-    worker = null;
-    workerList.splice(index, 1);
-  });
-}
-
-function createResultElement(root, result, loadedIn) {
-  const resultDisplay = createElement("h3", { content: `Result: ${result}` });
-  const classes = loadedIn > 1000 ? ["red"] : ["green"];
-  const loadDisplay = createElement("h4", {
-    content: `Calculated in: ${loadedIn} ms`,
-    classes,
-  });
-  root.append(resultDisplay, loadDisplay);
-}
+export default createProblemView;

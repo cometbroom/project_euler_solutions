@@ -1,57 +1,57 @@
-import { setupNavigator } from "../components/navigator.js";
 import { appData } from "../data/data.js";
-import createObservableState from "../lib/observableState.js";
-import { C_TYPE } from "../tools/checkType.js";
-import { createProblemElement } from "../views/problemView.js";
+import solveProblem from "../helpers/solveProblem.js";
+import state$ from "../state.js";
+import createProblemView from "../views/problemView.js";
 
-let state = createObservableState();
+state$.updateState({ problems: appData.problems });
+
 const props = {
-  onKeyUp: inputKeyUpHandler,
+  inputKeyUp: inputKeyUpHandler,
 };
 
-//let other modules know the current page
-export let currentPage = 0;
+function createProblemPage(problemNum = "0") {
+  problemNum = parseInt(problemNum, 10);
 
-const initProblemPage = function (urlPage = 0) {
-  //Take page from url as integer
-  currentPage = parseInt(urlPage, 10);
+  //Default page if out of bound
+  if (problemNum < 0 || problemNum >= state$.getState().problems.length) {
+    router.navigateTo("main", 0);
+  }
+  const view = createProblemView(props);
 
-  //If out of limit reset to first page
-  if (urlPage >= appData.problems.length) urlPage = 0;
-  if (C_TYPE.isString(urlPage)) urlPage = parseInt(urlPage, 10);
-  const root = stateIntoView(state, urlPage);
-  return root;
-};
+  const pageDidLoad = () => {
+    state$.subscribe(view.update);
+    state$.updateState({ problemNum: problemNum });
+    solveProblem();
+  };
 
-const stateIntoView = (state, page) => {
-  const view = createProblemElement(state, props);
+  const pageWillUnload = () => {
+    state$.unsubscribe(view.update);
+  };
 
-  //Setup our navigator with state
-  setupNavigator(state);
-  state.updateState({
-    current: page,
-    ...appData.problems[page],
-  });
-  return view;
-};
+  return { root: view.root, pageDidLoad, pageWillUnload };
+}
 
 function inputKeyUpHandler() {
   let timeoutId;
   clearTimeout(timeoutId);
+  if (parseInt(this.value) < 0) this.value = 0;
   //Timeout to calculate only after 600 ms delay
   timeoutId = setTimeout(() => {
     const numValue = parseInt(this.value);
     //Check our input
     if (typeof numValue === "number" && this.value > 0) {
-      const _state = state.getState();
+      const state = state$.getState();
+      const currentProblem = state.problems[state.problemNum];
+      const inputs = state.inputs || currentProblem.inputs;
 
       //Add the number to inputs in the state
-      _state.inputs[parseInt(this.id, 10)] = numValue;
+      inputs[parseInt(this.id, 10)] = numValue;
 
       //Update state to refresh displays
-      state.updateState(_state);
+      state$.updateState({ inputs, loading: true });
+      solveProblem();
     }
   }, 600);
 }
 
-export default initProblemPage;
+export default createProblemPage;
