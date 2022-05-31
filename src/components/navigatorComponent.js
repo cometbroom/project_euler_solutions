@@ -1,4 +1,3 @@
-import router from "../lib/router";
 import state$ from "../state";
 import createNavigatorView from "../views/navigatorView";
 import { addSwipeAnimation } from "./animations";

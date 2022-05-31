@@ -23,5 +23,10 @@ export const appData = {
       inputs: [],
       result: pSolvers[3],
     },
+    {
+      title: (in1) => `Smallest multiple of numbers from 1 to ${in1}`,
+      inputs: [20],
+      result: pSolvers[4],
+    },
   ],
 };
