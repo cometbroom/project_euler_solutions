@@ -1,5 +1,6 @@
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
+import { numberStaggerAnimation } from "../components/staggerAnim";
 import { createElement } from "../tools/DOMCreate";
 
 hljs.registerLanguage("javascript", javascript);
@@ -22,7 +23,9 @@ function createProblemView(props) {
     hljs.highlightElement(codeBlock);
 
     result.textContent = `Result: ${state.result}`;
-    elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
+    // elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
+    elapsed.textContent = state.elapsed;
+    numberStaggerAnimation(elapsed);
     if (state.loading) elapsed.textContent = `Loading...`;
     if (state.timeout) elapsed.textContent = `Timeout.`;
     if (state.elapsed < 200) elapsed.style.color = "rgb(18, 194, 27)";
