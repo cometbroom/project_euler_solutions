@@ -1,7 +1,7 @@
-import { appData } from "../data/data";
-import solveProblem from "../helpers/solveProblem";
-import state$ from "../state";
-import createProblemView from "../views/problemView";
+import { appData } from "../data/data.js";
+import solveProblem from "../helpers/solveProblem.js";
+import state$ from "../state.js";
+import createProblemView from "../views/problemView.js";
 
 state$.updateState({ problems: appData.problems });
 
