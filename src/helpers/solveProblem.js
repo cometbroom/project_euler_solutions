@@ -25,23 +25,25 @@ function solveProblem() {
       loading: false,
       timeout: false,
     });
-    clearTimeout(timerId);
+    clearTimeout(
+      workerList.find((worker) => worker.thread == solverProcess).timer
+    );
     solverProcess.terminate();
   };
-  workerList.push(solverProcess);
-  timerId = setTimeout(() => {
-    clearThreads();
+  const timer = setTimeout(() => {
     state$.updateState({
       result: 0,
       loading: false,
       timeout: true,
     });
   }, 5000);
+  workerList.push({ thread: solverProcess, timer });
 }
 
 function clearThreads() {
   workerList.forEach((worker, index) => {
-    worker.terminate();
+    worker.thread.terminate();
+    clearTimeout(worker.timer);
     worker = null;
     workerList.splice(index, 1);
   });
