@@ -146,10 +146,22 @@ const smallestMultipleNum = function (in1) {
   return result;
 };
 
+const sumSquareDifference = function (upperBound) {
+  let sumSquare = 0;
+  let squareSum = 0;
+  //Calculate everything in one loop for maximum speed.
+  for (let i = 1, j = 1; i <= upperBound; ++i, ++j) {
+    sumSquare += j;
+    squareSum += Math.pow(i, 2);
+  }
+  return Math.pow(sumSquare, 2) - squareSum;
+};
+
 export default [
   sumMultiplesOf3n5,
   evenFibonacciNums,
   largestPrimeFactor,
   largestPalindromeProduct,
   smallestMultipleNum,
+  sumSquareDifference,
 ];
