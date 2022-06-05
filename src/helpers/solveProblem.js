@@ -15,8 +15,6 @@ function solveProblem() {
   solverProcess.postMessage(["problem", state.problemNum, inputs]);
   const startTimer = Date.now();
 
-  let timerId;
-
   //Process DOM after our worker is done
   solverProcess.onmessage = (e) => {
     state$.updateState({
