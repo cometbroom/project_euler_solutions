@@ -43,7 +43,7 @@ const assignInputs = (target, inputChange, problem) => {
   for (let i = 0; i < inputs.length; ++i) {
     const inputEl = document.getElementById(`${i} input`);
     if (!inputEl)
-      createInput(`${i} input`, "text", inputs[i], target, inputChange);
+      createInput(`${i} input`, "number", inputs[i], target, inputChange);
     else inputEl.value = inputs[i];
     //Don't append if we already have inputs
     if (!target.hasChildNodes()) target.appendChild(inputEl);

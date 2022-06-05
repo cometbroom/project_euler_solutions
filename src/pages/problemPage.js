@@ -31,7 +31,7 @@ function createProblemPage(problemNum = "0") {
   return { root: view.root, pageDidLoad, pageWillUnload };
 }
 
-function inputKeyUpHandler() {
+function inputKeyUpHandler(e) {
   let timeoutId;
   clearTimeout(timeoutId);
   if (parseInt(this.value) < 0) this.value = 0;
@@ -42,13 +42,12 @@ function inputKeyUpHandler() {
     if (typeof numValue === "number" && this.value > 0) {
       const state = state$.getState();
       const currentProblem = state.problems[state.problemNum];
-      const inputs = state.inputs || currentProblem.inputs;
 
       //Add the number to inputs in the state
-      inputs[parseInt(this.id, 10)] = numValue;
+      currentProblem.inputs[parseInt(this.id, 10)] = numValue;
 
       //Update state to refresh displays
-      state$.updateState({ inputs, loading: true });
+      state$.updateState({ loading: true });
       solveProblem();
     }
   }, 600);
