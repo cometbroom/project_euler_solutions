@@ -6,7 +6,7 @@ import state$ from "./state.js";
 import { createElement } from "./tools/DOMCreate.js";
 
 function loadApp() {
-  log.setLevel("debug");
+  log.setLevel("none");
 
   const appRoot = document.querySelector("section.ui");
 

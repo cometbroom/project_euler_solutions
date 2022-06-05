@@ -28,5 +28,11 @@ export const appData = {
       inputs: [20],
       result: pSolvers[4],
     },
+    {
+      title: (in1) =>
+        `The difference of sum of the squares and square of sum of the first ${in1} natural numbers`,
+      inputs: [100],
+      result: pSolvers[5],
+    },
   ],
 };

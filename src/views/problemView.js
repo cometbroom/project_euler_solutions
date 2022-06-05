@@ -1,5 +1,6 @@
 import hljs from "../../snowpack/pkg/highlightjs/lib/core.js";
 import javascript from "../../snowpack/pkg/highlightjs/lib/languages/javascript.js";
+import { numberStaggerAnimation } from "../components/staggerAnim.js";
 import { createElement } from "../tools/DOMCreate.js";
 
 hljs.registerLanguage("javascript", javascript);
@@ -22,7 +23,10 @@ function createProblemView(props) {
     hljs.highlightElement(codeBlock);
 
     result.textContent = `Result: ${state.result}`;
-    elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
+    // elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
+    elapsed.textContent = state.elapsed;
+    if (state.loading !== true && state.timeout !== true)
+      numberStaggerAnimation(elapsed, state.elapsed);
     if (state.loading) elapsed.textContent = `Loading...`;
     if (state.timeout) elapsed.textContent = `Timeout.`;
     if (state.elapsed < 200) elapsed.style.color = "rgb(18, 194, 27)";
@@ -43,7 +47,7 @@ const assignInputs = (target, inputChange, problem) => {
   for (let i = 0; i < inputs.length; ++i) {
     const inputEl = document.getElementById(`${i} input`);
     if (!inputEl)
-      createInput(`${i} input`, "text", inputs[i], target, inputChange);
+      createInput(`${i} input`, "number", inputs[i], target, inputChange);
     else inputEl.value = inputs[i];
     //Don't append if we already have inputs
     if (!target.hasChildNodes()) target.appendChild(inputEl);
