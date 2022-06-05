@@ -8,6 +8,7 @@ function solveProblem() {
     type: "module",
   });
 
+  state$.updateState({ loading: true });
   const state = state$.getState();
   const { inputs } = state.problems[state.problemNum];
 
