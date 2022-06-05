@@ -1,17 +1,17 @@
 import gsap from "gsap";
 
-export const numberStaggerAnimation = (targetElement) => {
-  gsap.from(targetElement, {
-    textContent: 0,
+export const numberStaggerAnimation = (targetElement, elapsed) => {
+  const counter = { val: elapsed };
+
+  gsap.from(counter, {
     duration: 0.4,
     ease: "power1.in",
-    snap: { textContent: 1 },
+    val: 0,
+    snap: { val: 1 },
     stagger: {
       each: 1.0,
       onUpdate: function () {
-        this.targets()[0].innerHTML = `Calculated in: ${
-          this.targets()[0].textContent
-        } ms`;
+        targetElement.textContent = `Calculated in: ${counter.val} ms`;
       },
     },
   });
