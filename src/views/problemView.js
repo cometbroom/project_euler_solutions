@@ -25,7 +25,8 @@ function createProblemView(props) {
     result.textContent = `Result: ${state.result}`;
     // elapsed.textContent = `Calculated in: ${state.elapsed} ms`;
     elapsed.textContent = state.elapsed;
-    numberStaggerAnimation(elapsed, state.elapsed);
+    if (state.loading !== true && state.timeout !== true)
+      numberStaggerAnimation(elapsed, state.elapsed);
     if (state.loading) elapsed.textContent = `Loading...`;
     if (state.timeout) elapsed.textContent = `Timeout.`;
     if (state.elapsed < 200) elapsed.style.color = "rgb(18, 194, 27)";
