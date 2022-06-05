@@ -1,33 +1,54 @@
 import gsap from "gsap";
 import { UI_QUERY } from "../constants";
 import router from "../lib/router";
+import state$ from "../state";
 
 const tasks = [];
 let finished = true;
 const duration = 0.4;
 
 export const addSwipeAnimation = function (target, currentPage) {
-  //See if next page called or previous and add to tasks
-  switch (target) {
-    case "next":
-      tasks.push(animate(true, currentPage));
-      break;
-    case "prev":
-      tasks.push(animate(null, currentPage));
-      break;
-    default:
-      break;
-  }
+  //If next page is called pass true boolean to animation that deals with that.
+  let next = false;
+  if (target === "next") next = true;
+
+  //Push animation function to tasks to get called and popped
+  tasks.push(animate(next, getActualCurrentPage(target, currentPage)));
+
   //If tasks are finished then start the runner other wise just add to runner
-  //tasks
   if (finished) {
     taskRun();
   }
 };
 
+//Find actual current page because the one from state gets updated halfway through animation.
+function getActualCurrentPage(target, currentPage) {
+  //min and max of our pages
+  const [min, max] = [0, state$.getState().problems.length];
+  let trueCurrentPage;
+
+  switch (target) {
+    case "next":
+      //Tasks length means true currentPage is more/less than what's passed here
+      trueCurrentPage = currentPage + tasks.length;
+
+      //With many tasks, trueCurrentPage can overflow as the control is on state
+      //We add an additional control to prevent that.
+      if (trueCurrentPage >= max - 1) return max - 1;
+      //Return twice instead of break. save 1 line.
+      return trueCurrentPage;
+    case "prev":
+      trueCurrentPage = currentPage - tasks.length;
+      if (trueCurrentPage < min) return min;
+      return trueCurrentPage;
+  }
+  return 0;
+}
+
 function taskRun() {
   finished = false;
   //Recursively call tasks until there are none left.
+  console.log(tasks);
   tasks[0]().then(() => {
     tasks.shift();
     //Condition to make animations faster
