@@ -77,37 +77,6 @@ const largestPalindromeProduct = function (digits) {
   return largest;
 };
 
-// const smallestMultipleNum = function (x) {
-//   //Some numbers don't need to be checked
-//   //for example numbers that are factorable by 20 are also factorable by 2
-//   const searchArray = (x) => {
-//     const uniqueDivisors = [];
-//     //Start from 2 as everything is divisible by 1
-//     for (let i = 2; i <= x; ++i) {
-//       //Minimize redundancy by taking the numbers whose multiple (by 2) is not in our domain
-//       if (i * 2 > x) uniqueDivisors.push(i);
-//     }
-//     return uniqueDivisors;
-//   };
-
-//   const divisors = searchArray(x);
-//   //Go through all numbers to find our smallest multiple
-//   for (let i = x; i < Number.MAX_VALUE; i += x) {
-//     //Boolean to dictate the loop
-//     let keepSearching = false;
-//     //Loop through our divisors to check if our number is divisible by all
-//     for (let j = 0; j < divisors.length; j++) {
-//       //As soon as 1 divisor has a remainder, we no longer need to check the rest
-//       if (i % divisors[j] !== 0) {
-//         keepSearching = true;
-//         break;
-//       }
-//     }
-//     //If this boolean stays false, that means our number is found
-//     //Without this we had to divide domain with every divisor, this is to save calculation
-//     if (keepSearching === false) return i;
-//   }
-// };
 
 const smallestMultipleNum = function (in1) {
   //Find prime factors of our number
