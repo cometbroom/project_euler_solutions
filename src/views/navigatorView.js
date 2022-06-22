@@ -1,5 +1,5 @@
 const INACTIVE_BTN = "inactive-btn";
-import { createElement } from "../tools/DOMCreate";
+import { createElement } from "../tools/DOMCreate.js";
 
 function createNavigatorView(props) {
   const section = createElement("section", { class: "navigator" });

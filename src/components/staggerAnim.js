@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import gsap from "../../snowpack/pkg/gsap.js";
 
 export const numberStaggerAnimation = (targetElement, elapsed) => {
   const counter = { val: elapsed };
