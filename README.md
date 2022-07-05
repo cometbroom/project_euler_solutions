@@ -9,6 +9,33 @@ Here is a screenshot of the web app, read more below about the development:
 
 ![Screenshot of the web app](./assets/home%20screenshot.PNG)
 
+## Folder structure
+
+```
+.
+├── assets/
+│   └── ...Github assets
+├── public/
+│   └── ...Application assets and styling
+└── src/
+    ├── components/
+    │   └── ...Modules that modify elements programatically
+    ├── data/
+    │   ├── ...Program data, currently on memory
+    │   └── ...Solvers and workers
+    ├── helpers/
+    │   └── ...Module handling workers and relating them to state
+    ├── lib/
+    │   └── ...Main functionality tooling such as logger, router etc...
+    ├── pages/
+    │   ├── ...Pages controller and functionality module
+    │   └── ...Routes array responsible for pages entry
+    ├── tools/
+    │   └── ...Side functionality tooling such as type checkers
+    └── views/
+        └── ...Pages rendering and event listening module
+```
+
 ## Development
 I made this app with HTML/CSS and vanilla javascript.
 
